@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آرکا مالی | مدیریت مالی و مشاور فروش</title>
+  
+  <!-- فونت استاندارد وزیرمتن -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- کتابخانه فونت‌آیکون FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- کتابخانه استایل Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              emeraldDark: '#0B241C',
+              emerald: '#133E2B',
+              emeraldLight: '#1C543B',
+              forest: '#246B4B',
+              creamLight: '#FCFAF6',
+              cream: '#F4EFE6',
+              creamDark: '#E6DCCF',
+              gold: '#C5A059',
+              goldLight: '#DFBA73'
+            }
+          },
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background-color: #0B241C;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(28, 84, 59, 0.45) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(197, 160, 89, 0.2) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(19, 62, 43, 0.5) 0px, transparent 100%);
+      background-attachment: fixed;
+    }
+    
+    .glass-card {
+      background: rgba(244, 239, 230, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+    }
+
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(28, 84, 59, 0.12);
+    }
+
+    .custom-shadow {
+      box-shadow: 0 25px 50px -12px rgba(11, 36, 28, 0.45), 0 0 0 1px rgba(197, 160, 89, 0.2);
+    }
+  </style>
+</head>
+
+<body id="top" class="min-h-screen text-slate-800 flex flex-col justify-between items-center p-4 sm:p-6 md:p-8 antialiased selection:bg-brand-gold selection:text-white">
+
+  <!-- توست اعلان پیام کپی با سیستم ایمن -->
+  <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 bg-brand-emerald text-brand-cream px-5 py-3 rounded-full shadow-2xl border border-brand-gold/40 text-sm font-medium">
+    <i class="fa-solid fa-circle-check text-brand-gold"></i>
+    <span id="toast-message">با موفقیت کپی شد</span>
+  </div>
+
+  <main class="w-full max-w-md my-auto">
+    <!-- کارت اصلی شیشه‌ای کارت ویزیت -->
+    <div class="glass-card rounded-[2.5rem] p-6 sm:p-8 custom-shadow relative overflow-hidden transition-all duration-300">
+      
+      <!-- جلوه‌های نوری دکوراتیو پس‌زمینه -->
+      <div class="absolute -top-16 -left-16 w-36 h-36 bg-brand-gold/20 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-16 -right-16 w-36 h-36 bg-brand-emerald/15 rounded-full blur-2xl pointer-events-none"></div>
+      
+      <div class="flex justify-between items-center mb-6">
+        <button onclick="openQrModal()" title="نمایش QR کد برای اسکن" class="w-10 h-10 rounded-2xl glass-pill flex items-center justify-center text-brand-emerald hover:bg-brand-emerald hover:text-brand-cream transition-all duration-200 shadow-sm active:scale-95">
+          <i class="fa-solid fa-qrcode text-base"></i>
+        </button>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-brand-emerald/10 text-brand-emerald border border-brand-emerald/15">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          آماده ارائه مشاوره و همکاری
+        </span>
+        <button onclick="shareProfile()" title="اشتراک‌گذاری" class="w-10 h-10 rounded-2xl glass-pill flex items-center justify-center text-brand-emerald hover:bg-brand-emerald hover:text-brand-cream transition-all duration-200 shadow-sm active:scale-95">
+          <i class="fa-solid fa-share-nodes text-base"></i>
+        </button>
+      </div>
+
+      <div class="flex flex-col items-center text-center mb-7">
+        <div class="relative mb-4 group">
+          <!-- هاله ملایم دور لوگو -->
+          <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-brand-gold via-brand-goldLight to-brand-forest opacity-70 blur-md group-hover:opacity-100 transition duration-300"></div>
+          
+          <!-- قاب لوگوی اصلی: بارگذاری فایل logo.png -->
+          <div class="relative w-32 h-32 rounded-3xl overflow-hidden bg-white border-2 border-brand-gold/50 p-3 flex items-center justify-center shadow-xl">
+            <img 
+              id="brand-logo"
+              src="logo.png" 
+              alt="لوگوی آرکا مالی - Arka Mali" 
+              class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              onerror="this.onerror=null; this.src='https://cardsmart929-ai.github.io/arkamali/logo.png';"
+            >
+          </div>
+          
+          <!-- نشان تایید اصالت کسب‌وکار -->
+          <div class="absolute -bottom-1.5 -right-1.5 w-8 h-8 rounded-full bg-brand-gold text-brand-emeraldDark flex items-center justify-center border-2 border-brand-cream shadow-md text-xs" title="تایید هویت و صلاحیت">
+            <i class="fa-solid fa-check"></i>
+          </div>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-emeraldDark tracking-tight mb-1">
+          آرکا مالی
+        </h1>
+        <p class="text-sm sm:text-base font-semibold text-brand-forest mb-2">
+          مدیریت مالی و مشاور تخصصی افزایش فروش
+        </p>
+        <p class="text-xs text-slate-600 max-w-xs leading-relaxed">
+          طراحی مدل‌های سودآوری، کنترل هزینه‌ها و تدوین استراتژی‌های جامع توسعه فروش سازمانی
+        </p>
+
+        <!-- برچسب‌های تخصص -->
+        <div class="flex flex-wrap justify-center gap-1.5 mt-3">
+          <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-brand-creamDark/60 text-brand-emeraldDark border border-brand-gold/30">
+            <i class="fa-solid fa-coins text-brand-gold ml-1"></i> بهینه‌سازی بودجه
+          </span>
+          <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-brand-creamDark/60 text-brand-emeraldDark border border-brand-gold/30">
+            <i class="fa-solid fa-arrow-trend-up text-brand-gold ml-1"></i> استراتژی فروش
+          </span>
+          <span class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-brand-creamDark/60 text-brand-emeraldDark border border-brand-gold/30">
+            <i class="fa-solid fa-handshake text-brand-gold ml-1"></i> منتورینگ کسب‌وکار
+          </span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <a href="tel:09306858970" class="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-brand-emerald hover:bg-brand-emeraldDark text-brand-cream font-bold text-sm shadow-md shadow-brand-emerald/20 transition-all duration-200 active:scale-95 group">
+          <i class="fa-solid fa-phone-volume text-brand-gold group-hover:rotate-12 transition-transform"></i>
+          <span>تماس مستقیم</span>
+        </a>
+        <button onclick="downloadVCard()" class="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl bg-brand-gold hover:bg-brand-goldLight text-brand-emeraldDark font-bold text-sm shadow-md shadow-brand-gold/25 transition-all duration-200 active:scale-95">
+          <i class="fa-solid fa-address-card"></i>
+          <span>ذخیره در مخاطبین</span>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+
+        <!-- ۱. وب‌سایت رسمی -->
+        <a href="https://cardsmart929-ai.github.io/arkamali/" target="_blank" rel="noopener noreferrer" 
+           class="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-brand-emeraldLight hover:text-white transition-all duration-200 shadow-sm border border-brand-gold/30 hover:border-transparent active:scale-[0.99]">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-brand-cream flex items-center justify-center text-brand-emerald group-hover:bg-white/20 group-hover:text-brand-gold transition-colors shadow-inner">
+              <i class="fa-solid fa-globe text-xl"></i>
+            </div>
+            <div class="text-right">
+              <h2 class="text-sm font-bold text-slate-800 group-hover:text-white">وب‌سایت رسمی آرکا مالی</h2>
+              <p class="text-xs text-slate-500 group-hover:text-brand-cream/80">مشاهده نمونه‌کارها، خدمات و پورتفولیو</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-left text-xs text-brand-gold group-hover:-translate-x-1 transition-transform"></i>
+        </a>
+
+        <!-- ۲. پیام‌رسان بله -->
+        <a href="https://ble.ir/arkamali" target="_blank" rel="noopener noreferrer" 
+           class="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-brand-emeraldLight hover:text-white transition-all duration-200 shadow-sm border border-brand-gold/30 hover:border-transparent active:scale-[0.99]">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-[#e3f4ea] flex items-center justify-center text-[#18754b] group-hover:bg-white/20 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-comments text-xl"></i>
+            </div>
+            <div class="text-right">
+              <div class="flex items-center gap-2">
+                <h2 class="text-sm font-bold text-slate-800 group-hover:text-white">پیام‌رسان بله</h2>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold group-hover:bg-white group-hover:text-brand-emerald">داخلی</span>
+              </div>
+              <p class="text-xs text-slate-500 group-hover:text-brand-cream/80 dir-ltr text-right">@arkamali</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-left text-xs text-brand-gold group-hover:-translate-x-1 transition-transform"></i>
+        </a>
+
+        <!-- ۳. پیام‌رسان تلگرام -->
+        <a href="https://t.me/Arkamali08" target="_blank" rel="noopener noreferrer" 
+           class="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-brand-emeraldLight hover:text-white transition-all duration-200 shadow-sm border border-brand-gold/30 hover:border-transparent active:scale-[0.99]">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-[#e6f4fa] flex items-center justify-center text-[#24A1DE] group-hover:bg-white/20 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-brands fa-telegram text-2xl"></i>
+            </div>
+            <div class="text-right">
+              <h2 class="text-sm font-bold text-slate-800 group-hover:text-white">ارتباط در تلگرام</h2>
+              <p class="text-xs text-slate-500 group-hover:text-brand-cream/80 dir-ltr text-right">@Arkamali08</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-left text-xs text-brand-gold group-hover:-translate-x-1 transition-transform"></i>
+        </a>
+
+        <!-- ۴. پیام‌رسان واتساپ -->
+        <a href="https://wa.me/989306858970" target="_blank" rel="noopener noreferrer" 
+           class="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-brand-emeraldLight hover:text-white transition-all duration-200 shadow-sm border border-brand-gold/30 hover:border-transparent active:scale-[0.99]">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-[#e6f8ee] flex items-center justify-center text-[#25D366] group-hover:bg-white/20 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-brands fa-whatsapp text-2xl"></i>
+            </div>
+            <div class="text-right">
+              <h2 class="text-sm font-bold text-slate-800 group-hover:text-white">چت در واتساپ</h2>
+              <p class="text-xs text-slate-500 group-hover:text-brand-cream/80 dir-ltr text-right">0930 685 8970</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-left text-xs text-brand-gold group-hover:-translate-x-1 transition-transform"></i>
+        </a>
+
+        <!-- ۵. شماره تماس مستقیم همراه با کپی سریع -->
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-white/85 border border-brand-gold/30 flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner">
+              <i class="fa-solid fa-mobile-screen-button text-xl"></i>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-500 font-medium">شماره تماس مستقیم و مشاوره</div>
+              <div class="text-base font-extrabold text-brand-emerald tracking-wider dir-ltr text-right select-all">
+                0930 685 8970
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-1.5">
+            <button onclick="copyToClipboard('09306858970', 'شماره تماس کپی شد')" class="px-3 py-2 text-xs font-semibold rounded-xl bg-brand-creamDark hover:bg-brand-gold hover:text-white text-brand-emerald transition-colors" title="کپی کردن شماره">
+              <i class="fa-regular fa-copy ml-1"></i> کپی
+            </button>
+            <a href="tel:09306858970" class="p-2.5 text-xs rounded-xl bg-brand-emerald text-brand-cream hover:bg-brand-emeraldDark transition-colors" title="برقراری تماس">
+              <i class="fa-solid fa-phone"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-6 pt-5 border-t border-brand-gold/25 text-center">
+        <div class="flex items-center justify-center gap-2 text-xs font-semibold text-brand-emeraldDark mb-1">
+          <i class="fa-regular fa-clock text-brand-gold"></i>
+          <span>ساعات پاسخگویی: شنبه تا چهارشنبه ۹ الی ۱۸</span>
+        </div>
+        <p class="text-[11px] text-slate-500">
+          جلسات حضوری و آنلاین با هماهنگی و تعیین وقت قبلی
+        </p>
+      </div>
+
+    </div>
+
+    <!-- فوتر زیر کارت -->
+    <div class="text-center mt-5 text-xs text-brand-cream/70 flex items-center justify-center gap-1.5">
+      <span>طراحی کارت ویزیت هوشمند</span>
+      <span class="w-1 h-1 rounded-full bg-brand-gold/60"></span>
+      <span class="font-semibold text-brand-gold">آرکا مالی</span>
+    </div>
+  </main>
+
+  <div id="qrModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card rounded-3xl p-6 max-w-xs w-full text-center relative shadow-2xl border-2 border-brand-gold/40 transform scale-95 transition-transform duration-300" id="qrModalCard">
+      <button onclick="closeQrModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-brand-emerald/10 text-brand-emerald flex items-center justify-center hover:bg-brand-emerald hover:text-white transition-colors">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="w-12 h-12 mx-auto rounded-2xl bg-brand-emerald text-brand-gold flex items-center justify-center mb-3">
+        <i class="fa-solid fa-qrcode text-2xl"></i>
+      </div>
+
+      <h3 class="font-bold text-base text-brand-emeraldDark mb-1">اسکن کارت ویزیت دیجیتال</h3>
+      <p class="text-xs text-slate-600 mb-4">جهت ذخیره و باز کردن این کارت در تلفن همراه، بارکد را اسکن کنید.</p>
+
+      <div class="p-3 bg-white rounded-2xl inline-block shadow-inner border border-brand-gold/30">
+        <img id="qrImage" 
+             src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://cardsmart929-ai.github.io/arkamali/&color=13-62-43" 
+             alt="QR Code Arka Mali" 
+             class="w-44 h-44 rounded-lg block"
+             onerror="this.src='https://placehold.co/180x180/F4EFE6/133E2B?text=QR+Code';">
+      </div>
+
+      <div class="mt-4 flex gap-2">
+        <button onclick="copyToClipboard('https://cardsmart929-ai.github.io/arkamali/', 'آدرس کارت کپی شد')" class="w-full py-2.5 rounded-xl bg-brand-emerald hover:bg-brand-emeraldDark text-white text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+          <i class="fa-regular fa-copy"></i>
+          <span>کپی آدرس کارت</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // سیستم کپی ایمن در کلیپ‌بورد بدون وابستگی خارجی
+    function copyToClipboard(text, successMessage) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMessage || 'کپی شد');
+        }).catch(() => {
+          fallbackCopyText(text, successMessage);
+        });
+      } else {
+        fallbackCopyText(text, successMessage);
+      }
+    }
+
+    function fallbackCopyText(text, successMessage) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMessage || 'کپی شد');
+      } catch (err) {
+        showToast('خطا در کپی متن');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // مدیریت اعلان توست (Toast)
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toastMessage.textContent = message;
+      
+      clearTimeout(toastTimeout);
+      toast.classList.remove('opacity-0', '-translate-y-20');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-20');
+      }, 2500);
+    }
+
+    // باز و بسته کردن مودال کیوآر کد
+    function openQrModal() {
+      const modal = document.getElementById('qrModal');
+      const card = document.getElementById('qrModalCard');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        card.classList.remove('scale-95');
+        card.classList.add('scale-100');
+      }, 10);
+    }
+
+    function closeQrModal() {
+      const modal = document.getElementById('qrModal');
+      const card = document.getElementById('qrModalCard');
+      modal.classList.add('opacity-0');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    // بستن مودال با کلیک روی پس‌زمینه
+    document.getElementById('qrModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeQrModal();
+      }
+    });
+
+    // اشتراک‌گذاری از طریق Web Share API
+    function shareProfile() {
+      const shareData = {
+        title: 'آرکا مالی | مدیریت مالی و مشاور فروش',
+        text: 'کارت ویزیت دیجیتال و اطلاعات ارتباطی آرکا مالی - مدیریت مالی و مشاوره فروش',
+        url: 'https://cardsmart929-ai.github.io/arkamali/'
+      };
+
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(() => {});
+      } else {
+        copyToClipboard('https://cardsmart929-ai.github.io/arkamali/', 'لینک کارت ویزیت در کلیپ‌بورد کپی شد');
+      }
+    }
+
+    // ساخت و دانلود مستقیم فایل مخاطب تلفن همراه (vCard 3.0) به صورت کاملا کلاینت‌ساید
+    function downloadVCard() {
+      const vcardData = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'FN;CHARSET=UTF-8:آرکا مالی',
+        'ORG;CHARSET=UTF-8:مدیریت مالی و مشاوره فروش',
+        'TITLE;CHARSET=UTF-8:مشاور ارشد مالی و فروش',
+        'TEL;TYPE=CELL,VOICE;CHARSET=UTF-8:+989306858970',
+        'URL;CHARSET=UTF-8:https://cardsmart929-ai.github.io/arkamali/',
+        'NOTE;CHARSET=UTF-8:تلگرام: @Arkamali08 | بله: @arkamali | واتساپ: 09306858970',
+        'END:VCARD'
+      ].join('\r\n');
+
+      const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'Arka_Mali_Contact.vcf');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      showToast('فایل مخاطب دانلود شد');
+    }
+  </script>
+</body>
+</html>
